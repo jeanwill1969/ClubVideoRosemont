@@ -10,6 +10,7 @@ Description 3: Connexion base de données MySQL Java JDBC MySQL.
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -68,6 +69,7 @@ public class Main {
                 System.out.println("1 - Ajouter un client / gestionnaire");
                 System.out.println("2 - Ajouter un film au catalogue / commis");
                 System.out.println("3 - Ajouter une location / client");
+                System.out.println("4 - Liste des clients");
                 // System.out.println("4 - Ajouter un film à une location / commis");
 
                 int choix = scanner.nextInt();
@@ -152,6 +154,18 @@ public class Main {
                             System.out.println("Erreur lors de l'ajout de la location dans la base de données : " + e.getMessage());
                         }
                         break;
+
+                    case 4:
+                        // Afficher la liste des clients dans la base de données
+
+                        List<Membres> membres = membresDAO.getAllClients();
+                        System.out.println("Liste des clients dans la base de données :");
+                        for (Membres c : membres) {
+                            System.out.println(c.getId() + " - " + c.getNom() + " " + c.getPrenom());
+                        }
+                        break;
+
+
                 }
             }
 
