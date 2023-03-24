@@ -1,3 +1,10 @@
+/*
+Technique de développement de système - Implémentation Java Club Vidéo
+Auteur : Jean-François Trudel
+Date : Mars 2023
+Description 1: Programme d'entrée du menu général Main.
+ */
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.Scanner;
