@@ -3,7 +3,10 @@ Technique de développement de système - Implémentation Java Club Vidéo
 Auteur : Jean-François Trudel
 Date : Mars 2023
 Description 1: Programme d'entrée du menu général Main.
+Description 2: Simulation Commis ou Client.
+Description 3: Connexion base de données MySQL Java JDBC MySQL.
  */
+
 
 import java.sql.*;
 import java.time.LocalDate;
