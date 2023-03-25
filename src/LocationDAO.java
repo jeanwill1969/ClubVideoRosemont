@@ -28,5 +28,34 @@ public class LocationDAO {
             System.out.println(nbLignesAffectees + " location(s) ajoutée(s) à la base de données. ID de la location : " + id);
         }
     }
-}
 
+    public List<Location> getAllLocations() throws SQLException {
+        // Créer une requête SQL pour récupérer toutes les locations dans la table "locations"
+        String sql = "SELECT * FROM locations";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        // Exécuter la requête SQL pour récupérer toutes les locations
+        ResultSet rs = pstmt.executeQuery();
+
+        // Parcourir les résultats de la requête SQL et créer une liste de locations
+        List<Location> locations = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("location_id");
+            int clientId = rs.getInt("client_id");
+            LocalDate dateEmprunt = rs.getDate("date_emprunt").toLocalDate();
+            LocalDate dateRetour = rs.getDate("date_retour").toLocalDate();
+
+            // Récupérer le client associé à la location
+            MembresDAO membresDAO = new MembresDAO(conn);
+            Membres client = membresDAO.getClientById(clientId);
+
+            // Créer un objet Location à partir des données de la base de données
+            Location location = new Location(client, dateEmprunt, dateRetour);
+            locations.add(location);
+        }
+
+        return locations;
+
+    }
+
+}

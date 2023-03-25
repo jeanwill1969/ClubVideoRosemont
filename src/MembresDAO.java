@@ -36,34 +36,6 @@ public class MembresDAO {
         System.out.println(nbLignesAffectees + " client(s) ajouté(s) à la base de données.");
     }
 
-    public void modifierClient(Membres membre) throws SQLException {
-        // Créer une requête SQL pour modifier le client dans la table "clients"
-        String sql = "UPDATE membres SET nom = ?, prenom = ?, adresse = ?, email = ?, telephone = ? WHERE client_id = ?";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setString(1, membre.getNom());
-        pstmt.setString(2, membre.getPrenom());
-        pstmt.setString(3, membre.getAdresse());
-        pstmt.setString(4, membre.getEmail());
-        pstmt.setString(5, membre.getTelephone());
-        pstmt.setInt(6, membre.getId());
-
-        // Exécuter la requête SQL pour modifier le client
-        int nbLignesAffectees = pstmt.executeUpdate();
-
-        System.out.println(nbLignesAffectees + " client(s) modifié(s) dans la base de données.");
-    }
-
-    public void supprimerClient(int id) throws SQLException {
-        // Créer une requête SQL pour supprimer le client dans la table "clients"
-        String sql = "DELETE FROM clients WHERE client_id = ?";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setInt(1, id);
-
-        // Exécuter la requête SQL pour supprimer le client
-        int nbLignesAffectees = pstmt.executeUpdate();
-
-        System.out.println(nbLignesAffectees + " client(s) supprimé(s) de la base de données.");
-    }
 
     public List<Membres> getAllClients() throws SQLException {
         // Créer une requête SQL pour récupérer tous les clients dans la table "clients"

@@ -7,7 +7,6 @@ Description 2: Simulation Commis ou Client.
 Description 3: Connexion base de données MySQL Java JDBC MySQL.
  */
 
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -70,7 +69,8 @@ public class Main {
                 System.out.println("2 - Ajouter un film au catalogue / commis");
                 System.out.println("3 - Ajouter une location / client");
                 System.out.println("4 - Liste des clients");
-                // System.out.println("4 - Ajouter un film à une location / commis");
+                System.out.println("5 - Liste des locations");
+                System.out.println("6 - Liste des films au catalogue");
 
                 int choix = scanner.nextInt();
 
@@ -165,6 +165,24 @@ public class Main {
                         }
                         break;
 
+                    case 5:
+                        // Lister les locations
+
+                        System.out.println("Liste des locations dans la base de données :");
+                      //  LocationDAO locationDAO = new LocationDAO(conn);
+                        for (Location locations : locationDAO.getAllLocations()) {
+                            System.out.println(locations);
+                        }
+                        break;
+
+                    case 6:
+                        // Liste de tous les films
+
+                        System.out.println("Liste de tous les films :");
+                        for (Film f : filmDAO.getAllFilms()) {
+                            System.out.println(f.getId() + " - " + f.getTitre() + " (" + f.getDuree() + " min) - " + f.getRealisateur() + " - " + f.getanneeProduction());
+                        }
+                        break;
 
                 }
             }

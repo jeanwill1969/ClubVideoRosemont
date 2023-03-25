@@ -53,5 +53,28 @@ public class FilmDAO {
         return null;
     }
 
+    public List<Film> getAllFilms() throws SQLException {
+        List<Film> films = new ArrayList<>();
+        // Créer une requête SQL pour récupérer tous les films de la table "films"
+        String sql = "SELECT * FROM films";
+        Statement stmt = conn.createStatement();
+
+        // Exécuter la requête SQL et parcourir les résultats pour créer les objets Film correspondants
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            int film_id = rs.getInt("film_id");
+            String titre = rs.getString("titre");
+            int duree = rs.getInt("duree");
+            String genre = rs.getString("genre");
+            String realisateur = rs.getString("realisateur");
+            int anneeProduction = rs.getInt("anneeProduction");
+            Film film = new Film(titre, duree, genre, realisateur, anneeProduction);
+            film.setId(film_id);
+            films.add(film);
+        }
+
+        return films;
+    }
+
 }
 
