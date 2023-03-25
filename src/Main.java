@@ -33,7 +33,9 @@ public class Main {
             if (role == 1) {
                 // Menu expérience client
                 System.out.println("Menu expérience client :");
-                System.out.println("1 - Ajouter un film à une location");
+                System.out.println("1 - Ajouter une location / client");
+                System.out.println("2 - Ajouter un film à une location");
+                System.out.println("3 - Liste des films au catalogue");
 
                 int choix = scanner.nextInt();
                 MembresDAO membresDAO = new MembresDAO(conn);
@@ -42,6 +44,38 @@ public class Main {
 
                 switch (choix) {
                     case 1:
+
+                        // Ajouter une location / client
+
+                        scanner.nextLine(); // Consommer le retour de ligne après le choix
+                        System.out.print("Entrez l'ID du client : ");
+                        int idClient = scanner.nextInt();
+                        scanner.nextLine(); // Consommer le retour de ligne après la saisie de l'entier
+                        System.out.print("Entrez la date d'emprunt (format AAAA-MM-JJ) : ");
+                        LocalDate dateEmprunt = LocalDate.parse(scanner.nextLine());
+                        System.out.print("Entrez la date de retour (format AAAA-MM-JJ) : ");
+                        LocalDate dateRetour = LocalDate.parse(scanner.nextLine());
+
+                        // Récupérer le client à partir de son ID en utilisant la classe ClientDAO
+
+                        Membres client2 = membresDAO.getClientById(idClient);
+
+                        // Créer un objet Location à partir des informations saisies et du client récupéré
+
+                        Location location = new Location(client2, dateEmprunt, dateRetour);
+
+                        // Ajouter la location à la base de données en utilisant la classe LocationDAO
+
+                        try {
+                            locationDAO.ajouterLocation(location);
+                        } catch (SQLException e) {
+                            System.out.println("Erreur lors de l'ajout de la location dans la base de données : " + e.getMessage());
+                        }
+                        break;
+
+
+                    case 2:
+
                         System.out.println("Entrez l'ID de la location :");
                         int locationId = scanner.nextInt();
                         scanner.nextLine();
@@ -57,6 +91,14 @@ public class Main {
                         System.out.println("La location a été modifiée !");
                         break;
 
+                    case 3:
+                        // Liste de tous les films
+
+                        System.out.println("Liste de tous les films :");
+                        for (Film f : filmDAO.getAllFilms()) {
+                            System.out.println(f.getId() + " - " + f.getTitre() + " (" + f.getDuree() + " min) - " + f.getRealisateur() + " - " + f.getanneeProduction());
+                        }
+                        break;
                     default:
                         System.out.println("Choix invalide.");
                         break;
@@ -67,10 +109,9 @@ public class Main {
                 System.out.println("Menu expérience employé :");
                 System.out.println("1 - Ajouter un client / gestionnaire");
                 System.out.println("2 - Ajouter un film au catalogue / commis");
-                System.out.println("3 - Ajouter une location / client");
-                System.out.println("4 - Liste des clients");
-                System.out.println("5 - Liste des locations");
-                System.out.println("6 - Liste des films au catalogue");
+                System.out.println("3 - Liste des clients");
+                System.out.println("4 - Liste des locations");
+
 
                 int choix = scanner.nextInt();
 
@@ -106,7 +147,7 @@ public class Main {
 
                         // Ajouter un film au catalogue / commis
                         scanner.nextLine(); // Consommer le retour de ligne après le choix
-                        System.out.print("Entrez le titre du film : ");
+                        System.out.print("Entrez le ID du film : ");
                         String titre = scanner.nextLine();
                         System.out.print("Entrez la durée du film en minutes : ");
                         int duree = scanner.nextInt();
@@ -126,36 +167,6 @@ public class Main {
                         break;
 
                     case 3:
-
-                        // Ajouter une location / client
-
-                        scanner.nextLine(); // Consommer le retour de ligne après le choix
-                        System.out.print("Entrez l'ID du client : ");
-                        int idClient = scanner.nextInt();
-                        scanner.nextLine(); // Consommer le retour de ligne après la saisie de l'entier
-                        System.out.print("Entrez la date d'emprunt (format AAAA-MM-JJ) : ");
-                        LocalDate dateEmprunt = LocalDate.parse(scanner.nextLine());
-                        System.out.print("Entrez la date de retour (format AAAA-MM-JJ) : ");
-                        LocalDate dateRetour = LocalDate.parse(scanner.nextLine());
-
-                        // Récupérer le client à partir de son ID en utilisant la classe ClientDAO
-
-                        Membres client2 = membresDAO.getClientById(idClient);
-
-                        // Créer un objet Location à partir des informations saisies et du client récupéré
-
-                        Location location = new Location(client2, dateEmprunt, dateRetour);
-
-                        // Ajouter la location à la base de données en utilisant la classe LocationDAO
-
-                        try {
-                            locationDAO.ajouterLocation(location);
-                        } catch (SQLException e) {
-                            System.out.println("Erreur lors de l'ajout de la location dans la base de données : " + e.getMessage());
-                        }
-                        break;
-
-                    case 4:
                         // Afficher la liste des clients dans la base de données
 
                         List<Membres> membres = membresDAO.getAllClients();
@@ -165,7 +176,7 @@ public class Main {
                         }
                         break;
 
-                    case 5:
+                    case 4:
                         // Lister les locations
 
                         System.out.println("Liste des locations dans la base de données :");
@@ -174,16 +185,6 @@ public class Main {
                             System.out.println(locations);
                         }
                         break;
-
-                    case 6:
-                        // Liste de tous les films
-
-                        System.out.println("Liste de tous les films :");
-                        for (Film f : filmDAO.getAllFilms()) {
-                            System.out.println(f.getId() + " - " + f.getTitre() + " (" + f.getDuree() + " min) - " + f.getRealisateur() + " - " + f.getanneeProduction());
-                        }
-                        break;
-
                 }
             }
 
